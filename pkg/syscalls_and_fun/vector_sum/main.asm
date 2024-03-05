@@ -64,7 +64,7 @@ PROGRAM_HEADER:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;INSTRUCTIONS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-START:	; address label representing the entry point of our program
+START:						; address label representing the entry point of our program
 
 	mov rdi,6				; number of values to sum
 	mov rsi,VECTOR			; address of the first value
@@ -75,7 +75,8 @@ START:	; address label representing the entry point of our program
 	call exit
 
 VECTOR:
+; VECTOR points to address memory (not instructions like add,exit..),
+; but points to number 11
 	dq 11,14,17,-18,-4,22
 
-
-END:	; address label representing the end of our program
+END:						; address label representing the end of our program

@@ -63,7 +63,10 @@ PROGRAM_HEADER:
 
 START:						; address label representing the entry point of our program
 
-	mov dil,42				; rdi - exit code
+	; mov rdi,42			; {dil} - low byte 
+	;	  ^ you can use {rdi} instead of {dil}.
+	;		{dil} saves about 2 bytes for this file
+	mov dil,42				; {rdi} - exit code
 	call exit		
 
 END:						; address label representing the end of our program
