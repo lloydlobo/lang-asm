@@ -3,44 +3,67 @@ scratch:	file format elf64-x86-64
 
 Disassembly of section .text:
 
-0000000000201320 <printf>:
-  201320: 57                           	push	rdi
-  201321: 56                           	push	rsi
-  201322: 48 89 f9                     	mov	rcx, rdi
-  201325: 48 83 f9 01                  	cmp	rcx, 0x1
-  201329: 74 19                        	je	0x201344 <printf.error>
-  20132b: b8 01 00 00 00               	mov	eax, 0x1
-  201330: bf 01 00 00 00               	mov	edi, 0x1
-  201335: 48 89 f6                     	mov	rsi, rsi
-  201338: 48 89 ca                     	mov	rdx, rcx
-  20133b: 0f 05                        	syscall
-  20133d: b8 00 00 00 00               	mov	eax, 0x0
-  201342: eb 05                        	jmp	0x201349 <printf.done>
+0000000000201320 <fprintf>:
+  201320: 51                           	push	rcx
+  201321: 57                           	push	rdi
+  201322: 56                           	push	rsi
+  201323: 4c 8d 07                     	lea	r8, [rdi]
+  201326: 48 89 fb                     	mov	rbx, rdi
+  201329: b8 01 00 00 00               	mov	eax, 0x1
+  20132e: 48 89 cf                     	mov	rdi, rcx
+  201331: 48 89 f6                     	mov	rsi, rsi
+  201334: 48 89 da                     	mov	rdx, rbx
+  201337: 0f 05                        	syscall
+  201339: 4c 89 c0                     	mov	rax, r8
+  20133c: 5e                           	pop	rsi
+  20133d: 5f                           	pop	rdi
+  20133e: 59                           	pop	rcx
+  20133f: c3                           	ret
 
-0000000000201344 <printf.error>:
-  201344: b8 01 00 00 00               	mov	eax, 0x1
+0000000000201340 <printf>:
+  201340: 57                           	push	rdi
+  201341: 56                           	push	rsi
+  201342: 48 89 f9                     	mov	rcx, rdi
+  201345: 48 83 f9 01                  	cmp	rcx, 0x1
+  201349: 74 19                        	je	0x201364 <printf.error>
+  20134b: b8 01 00 00 00               	mov	eax, 0x1
+  201350: bf 01 00 00 00               	mov	edi, 0x1
+  201355: 48 89 f6                     	mov	rsi, rsi
+  201358: 48 89 ca                     	mov	rdx, rcx
+  20135b: 0f 05                        	syscall
+  20135d: b8 00 00 00 00               	mov	eax, 0x0
+  201362: eb 05                        	jmp	0x201369 <printf.done>
 
-0000000000201349 <printf.done>:
-  201349: 5e                           	pop	rsi
-  20134a: 5f                           	pop	rdi
-  20134b: c3                           	ret
+0000000000201364 <printf.error>:
+  201364: b8 01 00 00 00               	mov	eax, 0x1
 
-000000000020134c <_start>:
-  20134c: 48 be 20 34 20 00 00 00 00 00	movabs	rsi, 0x203420
-  201356: bf 0e 00 00 00               	mov	edi, 0xe
-  20135b: e8 c0 ff ff ff               	call	0x201320 <printf>
-  201360: 48 83 f8 00                  	cmp	rax, 0x0
-  201364: 75 02                        	jne	0x201368 <_start.error>
-  201366: eb 0d                        	jmp	0x201375 <_start.done>
+0000000000201369 <printf.done>:
+  201369: 5e                           	pop	rsi
+  20136a: 5f                           	pop	rdi
+  20136b: c3                           	ret
 
-0000000000201368 <_start.error>:
-  201368: b8 3c 00 00 00               	mov	eax, 0x3c
-  20136d: bf 01 00 00 00               	mov	edi, 0x1
-  201372: 0f 05                        	syscall
-  201374: c3                           	ret
+000000000020136c <_start>:
+  20136c: 48 be 60 34 20 00 00 00 00 00	movabs	rsi, 0x203460
+  201376: bf 0e 00 00 00               	mov	edi, 0xe
+  20137b: e8 c0 ff ff ff               	call	0x201340 <printf>
+  201380: 48 83 f8 00                  	cmp	rax, 0x0
+  201384: 75 21                        	jne	0x2013a7 <_start.error>
+  201386: 48 be 6e 34 20 00 00 00 00 00	movabs	rsi, 0x20346e
+  201390: bf 0e 00 00 00               	mov	edi, 0xe
+  201395: b9 01 00 00 00               	mov	ecx, 0x1
+  20139a: e8 81 ff ff ff               	call	0x201320 <fprintf>
+  20139f: 48 83 f8 0d                  	cmp	rax, 0xd
+  2013a3: 7e 02                        	jle	0x2013a7 <_start.error>
+  2013a5: eb 0d                        	jmp	0x2013b4 <_start.done>
 
-0000000000201375 <_start.done>:
-  201375: b8 3c 00 00 00               	mov	eax, 0x3c
-  20137a: 48 31 ff                     	xor	rdi, rdi
-  20137d: 0f 05                        	syscall
-  20137f: c3                           	ret
+00000000002013a7 <_start.error>:
+  2013a7: b8 3c 00 00 00               	mov	eax, 0x3c
+  2013ac: bf 01 00 00 00               	mov	edi, 0x1
+  2013b1: 0f 05                        	syscall
+  2013b3: c3                           	ret
+
+00000000002013b4 <_start.done>:
+  2013b4: b8 3c 00 00 00               	mov	eax, 0x3c
+  2013b9: 48 31 ff                     	xor	rdi, rdi
+  2013bc: 0f 05                        	syscall
+  2013be: c3                           	ret

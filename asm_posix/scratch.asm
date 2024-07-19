@@ -13,24 +13,25 @@ global  _start
 
 fprintf:
 	;int {rax} fprintf(int {rcx}, int {rdi}, char *{rsi})
-	;    Write to {rcx} file descriptor a string of length {rdi} where {rsi}
-	;    points to starting address of the string's char.
+	;    Write to {rcx} file descriptor a string of length {rdi} where
+	;    {rsi} points to starting address of the string's char.
 	;    Return bytes written to the file descriptor's stream
 
 	push rcx
 	push rdi
 	push rsi
-	lea  r8, [rdi]
+	lea  r8, [rdi]; Copy/Save length of string
 	mov  rbx, rdi; Load length of string
 	mov  rax, SYS_WRITE
 	mov  rdi, rcx; Caller moved file descriptor into {rcx}
 	mov  rsi, rsi; Starting address of string
 	mov  rdx, rbx; Length of string
 	syscall
-	mov  rax, r8
-	pop  rsi
-	pop  rdi
-	pop  rcx
+
+	mov rax, r8
+	pop rsi
+	pop rdi
+	pop rcx
 	ret
 
 printf:
@@ -83,7 +84,7 @@ _start:
 
 .error:
 	mov rax, SYS_EXIT
-	mov rdi, EXIT_FAILURE
+	mov rdi, EXIT_FAILURE; exit(1)
 	syscall
 	ret
 
@@ -108,8 +109,16 @@ HELLO:
 	;----------------------------------------------------------------------
 	; "Build and Run"
 	;----------------------------------------------------------------------
+	; Without necessary debugging information:
 	;```bash
-	; find -name '*.asm' | entr -cprs 'nasm -f elf64 -g scratch.asm
+	; find -name '*.asm' | entr -cprs 'nasm -f elf64 scratch.asm
+	; ld scratch.o -o scratch -lc
+	; ./scratch
+	; echo $?'
+	;```
+	; With necessary debugging information:
+	;```bash
+	; find -name '*.asm' | entr -cprs 'nasm -f elf64 -g -F dwarf scratch.asm
 	; ld scratch.o -o scratch -lc
 	; ./scratch
 	; echo $?'
@@ -122,5 +131,13 @@ HELLO:
 	;```bash
 	; objdump -M intel -d scratch > scratch_objdump_intel.txt
 	;```
+	;======================================================================
+
+	;----------------------------------------------------------------------
+	; "Debugging"
+	;----------------------------------------------------------------------
+	; (gdb) set disassembly-flavor intel
+	; OR
+	; echo "set disassembly-flavor intel" >> ~/.gdbinit
 	;======================================================================
 
