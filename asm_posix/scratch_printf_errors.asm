@@ -12,55 +12,49 @@ section .text
 global  _start
 
 printf:
-	; int {rax} printf(int rdi, char *{rsi})
-	; Print string of length {rdi} where {rsi} points to starting address of the string's char.
-	; Return 0 if success else return 1 if string size is 0
+	; int {rax} printf(int {rdi}, char *{rsi})
+	; Print string of length {rdi} where {rsi} points to starting address
+	; of the string's char. Return 0 if success else return 1 if string size is 0
 
 	push rdi
 	push rsi
-
-	mov rcx, rdi
-	cmp rcx, 1
-	jz  .printf_error
-
-	mov rax, SYS_WRITE
-	mov rdi, FD_STDOUT
-	mov rsi, rsi
-	mov rdx, rcx
+	mov  rcx, rdi
+	cmp  rcx, 1
+	jz   .error
+	mov  rax, SYS_WRITE
+	mov  rdi, FD_STDOUT
+	mov  rsi, rsi
+	mov  rdx, rcx
 	syscall
-	mov rax, EXIT_SUCCESS
-	jmp .printf_done
+	mov  rax, EXIT_SUCCESS
+	jmp  .done
 
-.printf_error:
+.error:
 	mov rax, EXIT_FAILURE
 
-.printf_done:
+.done:
 	pop rsi
 	pop rdi
-
 	ret
 
 _start:
 	mov  rsi, PROGN
 	mov  rdi, N_PROGN
 	call printf
+	cmp  rax, 0
+	jne  .error
+	jmp  .done
 
-	cmp rax, 0
-	jne exit_failure
-	jmp exit_success
-
-exit_failure:
+.error:
 	mov rax, SYS_EXIT
 	mov rdi, EXIT_FAILURE
 	syscall
-
 	ret
 
-exit_success:
+.done:
 	mov rax, SYS_EXIT
 	xor rdi, rdi; exit(0)
 	syscall
-
 	ret
 
 section .data
@@ -79,6 +73,14 @@ PROGN:
 	; ld scratch.o -o scratch -lc
 	; ./scratch
 	; echo $?'
+	;```
+	;======================================================================
+
+	;----------------------------------------------------------------------
+	; "Disassembly"
+	;----------------------------------------------------------------------
+	;```bash
+	; objdump -M intel -d scratch > scratch_objdump_intel.txt
 	;```
 	;======================================================================
 

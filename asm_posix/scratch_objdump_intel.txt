@@ -1,0 +1,46 @@
+
+scratch:	file format elf64-x86-64
+
+Disassembly of section .text:
+
+0000000000201320 <printf>:
+  201320: 57                           	push	rdi
+  201321: 56                           	push	rsi
+  201322: 48 89 f9                     	mov	rcx, rdi
+  201325: 48 83 f9 01                  	cmp	rcx, 0x1
+  201329: 74 19                        	je	0x201344 <printf.error>
+  20132b: b8 01 00 00 00               	mov	eax, 0x1
+  201330: bf 01 00 00 00               	mov	edi, 0x1
+  201335: 48 89 f6                     	mov	rsi, rsi
+  201338: 48 89 ca                     	mov	rdx, rcx
+  20133b: 0f 05                        	syscall
+  20133d: b8 00 00 00 00               	mov	eax, 0x0
+  201342: eb 05                        	jmp	0x201349 <printf.done>
+
+0000000000201344 <printf.error>:
+  201344: b8 01 00 00 00               	mov	eax, 0x1
+
+0000000000201349 <printf.done>:
+  201349: 5e                           	pop	rsi
+  20134a: 5f                           	pop	rdi
+  20134b: c3                           	ret
+
+000000000020134c <_start>:
+  20134c: 48 be 20 34 20 00 00 00 00 00	movabs	rsi, 0x203420
+  201356: bf 0e 00 00 00               	mov	edi, 0xe
+  20135b: e8 c0 ff ff ff               	call	0x201320 <printf>
+  201360: 48 83 f8 00                  	cmp	rax, 0x0
+  201364: 75 02                        	jne	0x201368 <_start.error>
+  201366: eb 0d                        	jmp	0x201375 <_start.done>
+
+0000000000201368 <_start.error>:
+  201368: b8 3c 00 00 00               	mov	eax, 0x3c
+  20136d: bf 01 00 00 00               	mov	edi, 0x1
+  201372: 0f 05                        	syscall
+  201374: c3                           	ret
+
+0000000000201375 <_start.done>:
+  201375: b8 3c 00 00 00               	mov	eax, 0x3c
+  20137a: 48 31 ff                     	xor	rdi, rdi
+  20137d: 0f 05                        	syscall
+  20137f: c3                           	ret
