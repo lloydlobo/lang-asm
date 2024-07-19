@@ -11,10 +11,73 @@
 section .text
 global  _start
 
+fprintf:
+	;int {rax} fprintf(int {rcx}, int {rdi}, char *{rsi})
+	;    Write to {rcx} file descriptor a string of length {rdi} where
+	;    {rsi} points to starting address of the string's char.
+	;    Return bytes written to the file descriptor's stream
+
+	push rcx
+	push rdi
+	push rsi
+	lea  r8, [rdi]; Copy/Save length of string
+	mov  rbx, rdi; Load length of string
+	mov  rax, SYS_WRITE
+	mov  rdi, rcx; Caller moved file descriptor into {rcx}
+	mov  rsi, rsi; Starting address of string
+	mov  rdx, rbx; Length of string
+	syscall
+
+	mov rax, r8
+	pop rsi
+	pop rdi
+	pop rcx
+	ret
+
+printf:
+	;int {rax} printf(int {rdi}, char *{rsi})
+	;    Print string of length {rdi} where {rsi} points to starting
+	;    address of the string's char. Return 0 if success else return 1 if
+	;    string size is 0
+
+	push rdi
+	push rsi
+	mov  rcx, rdi
+	cmp  rcx, 1
+	jz   .error
+	mov  rax, SYS_WRITE
+	mov  rdi, FD_STDOUT
+	mov  rsi, rsi
+	mov  rdx, rcx
+	syscall
+	mov  rax, EXIT_SUCCESS
+	jmp  .done
+
+.error:
+	mov rax, EXIT_FAILURE
+
+.done:
+	pop rsi
+	pop rdi
+	ret
+
 _start:
-	mov rdx, 2
-	cmp rdx, 2
-	jnz .error
+	mov  rsi, PROGN
+	mov  rdi, N_PROGN
+	call printf
+	cmp  rax, EXIT_SUCCESS
+	jne  .error
+
+	mov  rsi, HELLO
+	mov  rdi, N_HELLO
+	mov  rcx, FD_STDOUT
+	call fprintf
+	;    Check if bytes written by fprintf into {rax} matches length of string to write to stdout
+	;    cmp   rax, N_HELLO
+	;    jne   .error
+	cmp  rax, (N_HELLO)-1
+	jle  .error
+
 	jmp .done
 
 .error:
@@ -32,7 +95,7 @@ _start:
 section .data
 
 PROGN:
-	db "scratch.asm", 0x0a
+	db "scratch *.*.*", 0x0a
 	N_PROGN equ $ - PROGN
 
 HELLO:
