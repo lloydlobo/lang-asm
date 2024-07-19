@@ -157,7 +157,7 @@ DQ_ARRAY:
 	SIZEOF_DQ_ARRAY_ITEM equ 8
 	N_DQ_ARRAY equ (SIZEOF_DQ_ARRAY) / SIZEOF_DQ_ARRAY_ITEM; 8
 
-;NOTES:
+;ARCHIVE:
 	;byte_array    db  1, 2, 3, 4, 5                ; 8-bit items
 	;word_array    dw  1000, 2000, 3000, 4000       ; 16-bit items
 	;dword_array   dd  100000, 200000, 300000       ; 32-bit items
@@ -167,3 +167,17 @@ DQ_ARRAY:
 	;word_count    equ ($ - word_array) / 2
 	;dword_count   equ ($ - dword_array) / 4
 	;qword_count   equ ($ - qword_array) / 8
+
+;NOTES:
+
+	;----------------------------------------------------------------------
+	; "Build and Run"
+	;----------------------------------------------------------------------
+	;```bash
+	; find -name '*.asm' | entr -cprs 'nasm -f elf64 -g scratch.asm
+	; ld scratch.o -o scratch -lc
+	; ./scratch
+	; echo $?'
+	;```
+	;======================================================================
+

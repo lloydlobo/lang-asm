@@ -1,12 +1,55 @@
-%define SYS_EXIT 60
+	;----------------------------------------------------------------------
+	; Some macros
+	;----------------------------------------------------------------------
 
-section .text
-global  _start
+	; Macro to define arrays that take 3 parameters (array name, item type, item size)
+
+	%macro define_array_of_ones_of_count_8 3
+
+%1:
+	%2 1, 1, 1, 1, 1, 1, 1, 1; type [...items]
+	SIZEOF_%1 equ $ - %1
+	SIZEOF_%1_ITEM equ %3
+	N_%1 equ (SIZEOF_%1) / SIZEOF_%1_ITEM
+	%endmacro
+
+	; Macro to define n size arrays that take 4+ parameters (array name, item type, item size, pointer to array)
+
+	%macro define_narray 4+
+
+%1:
+	%2 %4; type [...items]
+	SIZEOF_%1 equ $ - %1
+	SIZEOF_%1_ITEM equ %3
+	N_%1 equ (SIZEOF_%1) / SIZEOF_%1_ITEM
+	%endmacro
+
+	; Macro for sum function call that take 1 parameter (array name)
+
+	%macro sum_array 1
+	mov    rdi, N_%1
+	mov    rsi, %1
+	mov    rcx, SIZEOF_%1_ITEM
+	call   sum
+	%endmacro
+
+	;======================================================================
+
+	;----------------------------------------------------------------------
+	; Some defines
+	;----------------------------------------------------------------------
+
+	%define SYS_EXIT 60
+
+	;======================================================================
+
+	section .text
+	global  _start
 
 sum:
 	; size_t {rax} sum(size_t {rdi}, size_t *{rsi}, size_t {rcx})
 	; Compute the sum of count {rdi} packed size_t items starting at address {rsi}
-	; : where : rdi: array count, rsi: array pointer, rcx: array item size
+	; where   rdi: array count, rsi: array pointer, rcx: array item size
 
 	push rdi; Count of array
 	push rsi; Pointer to first item of array
@@ -56,6 +99,21 @@ _start:
 	call sum; function: size_t {rax} sum(size_t {rdi}, size_t *{rsi}, size_t {rcx})
 	mov  rdi, rax; exit code {rdi}
 
+	sum_array DB_ARR
+	mov rdi, rax; 8
+
+	sum_array DB_NARRAY
+	mov rdi, rax; 36
+
+	sum_array DW_NARRAY
+	mov rdi, rax; 16
+
+	sum_array DD_NARRAY
+	mov rdi, rax; 160
+
+	sum_array DQ_NARRAY
+	mov rdi, rax; 64
+
 	mov  rax, SYS_EXIT; {rax} = 60
 	;xor rdi, rdi; {rdi} = 0; exit code set above so comment this line
 	syscall
@@ -63,6 +121,17 @@ _start:
 	ret
 
 section .data
+
+;_macro_constants:
+	define_array_of_ones_of_count_8 DB_ARR, db, 1
+	define_array_of_ones_of_count_8 DW_ARR, dw, 1
+	define_array_of_ones_of_count_8 DD_ARR, dd, 1
+	define_array_of_ones_of_count_8 DQ_ARR, dq, 1
+
+	define_narray DB_NARRAY, db, 1, 1,2,3,4,5,6,7,8
+	define_narray DW_NARRAY, dw, 2, 100,200,300,400,500,600,700,800
+	define_narray DD_NARRAY, dd, 4, 1000,2000,3000,4000,5000,6000,7000,8000
+	define_narray DQ_NARRAY, dq, 8, 10000,20000,30000,40000,50000,60000,70000,80000
 
 DB_ARRAY:
 	db 1, 1, 1, 1, 1, 1, 1, 1; db `define word` allocates 1 bytes per item
@@ -88,6 +157,7 @@ DQ_ARRAY:
 	SIZEOF_DQ_ARRAY_ITEM equ 8
 	N_DQ_ARRAY equ (SIZEOF_DQ_ARRAY) / SIZEOF_DQ_ARRAY_ITEM; 8
 
+;ARCHIVE:
 	;byte_array    db  1, 2, 3, 4, 5                ; 8-bit items
 	;word_array    dw  1000, 2000, 3000, 4000       ; 16-bit items
 	;dword_array   dd  100000, 200000, 300000       ; 32-bit items
@@ -98,7 +168,7 @@ DQ_ARRAY:
 	;dword_count   equ ($ - dword_array) / 4
 	;qword_count   equ ($ - qword_array) / 8
 
-;DOCUMENTATION:
+;NOTES:
 
 	;----------------------------------------------------------------------
 	; "Build and Run"
