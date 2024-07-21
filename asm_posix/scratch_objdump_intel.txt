@@ -6,31 +6,29 @@ Disassembly of section .text:
 0000000000201320 <.text>:
   201320: 57                           	pushq	%rdi
   201321: 56                           	pushq	%rsi
-  201322: 52                           	pushq	%rdx
-  201323: 48 89 f9                     	movq	%rdi, %rcx
-  201326: 48 8b 06                     	movq	(%rsi), %rax
-  201329: 4d 31 c0                     	xorq	%r8, %r8
-  20132c: 4d 31 c9                     	xorq	%r9, %r9
-  20132f: 48 83 f9 01                  	cmpq	$0x1, %rcx
-  201333: 74 16                        	je	0x20134b <.text+0x2b>
-  201335: 48 01 d6                     	addq	%rdx, %rsi
-  201338: 49 ff c1                     	incq	%r9
-  20133b: 48 39 06                     	cmpq	%rax, (%rsi)
-  20133e: 7e 06                        	jle	0x201346 <.text+0x26>
-  201340: 48 8b 06                     	movq	(%rsi), %rax
-  201343: 4d 89 c8                     	movq	%r9, %r8
-  201346: 48 ff c9                     	decq	%rcx
-  201349: eb e4                        	jmp	0x20132f <.text+0xf>
-  20134b: 4c 89 c2                     	movq	%r8, %rdx
-  20134e: 5a                           	popq	%rdx
-  20134f: 5e                           	popq	%rsi
-  201350: 5f                           	popq	%rdi
-  201351: c3                           	retq
-  201352: bf 04 00 00 00               	movl	$0x4, %edi
-  201357: 48 be 18 34 20 00 00 00 00 00	movabsq	$0x203418, %rsi         # imm = 0x203418
-  201361: ba 08 00 00 00               	movl	$0x8, %edx
-  201366: e8 b5 ff ff ff               	callq	0x201320 <.text>
-  20136b: 48 89 c7                     	movq	%rax, %rdi
-  20136e: b8 3c 00 00 00               	movl	$0x3c, %eax
-  201373: 0f 05                        	syscall
-  201375: c3                           	retq
+  201322: 48 89 f9                     	movq	%rdi, %rcx
+  201325: 48 8b 06                     	movq	(%rsi), %rax
+  201328: 4d 31 c0                     	xorq	%r8, %r8
+  20132b: 4d 31 c9                     	xorq	%r9, %r9
+  20132e: 48 83 f9 01                  	cmpq	$0x1, %rcx
+  201332: 74 16                        	je	0x20134a <.text+0x2a>
+  201334: 48 01 d6                     	addq	%rdx, %rsi
+  201337: 49 ff c1                     	incq	%r9
+  20133a: 48 39 06                     	cmpq	%rax, (%rsi)
+  20133d: 7f 06                        	jg	0x201345 <.text+0x25>
+  20133f: 48 8b 06                     	movq	(%rsi), %rax
+  201342: 4d 89 c8                     	movq	%r9, %r8
+  201345: 48 ff c9                     	decq	%rcx
+  201348: eb e4                        	jmp	0x20132e <.text+0xe>
+  20134a: 4c 89 c2                     	movq	%r8, %rdx
+  20134d: 5e                           	popq	%rsi
+  20134e: 5f                           	popq	%rdi
+  20134f: c3                           	retq
+  201350: bf 09 00 00 00               	movl	$0x9, %edi
+  201355: 48 be 18 34 20 00 00 00 00 00	movabsq	$0x203418, %rsi         # imm = 0x203418
+  20135f: ba 08 00 00 00               	movl	$0x8, %edx
+  201364: e8 b7 ff ff ff               	callq	0x201320 <.text>
+  201369: 48 89 c7                     	movq	%rax, %rdi
+  20136c: b8 3c 00 00 00               	movl	$0x3c, %eax
+  201371: 0f 05                        	syscall
+  201373: c3                           	retq
