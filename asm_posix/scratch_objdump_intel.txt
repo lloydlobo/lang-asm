@@ -3,47 +3,34 @@ scratch:	file format elf64-x86-64
 
 Disassembly of section .text:
 
-0000000000201320 <max_int>:
-  201320: 57                           	push	rdi
-  201321: 56                           	push	rsi
-  201322: 52                           	push	rdx
-  201323: 48 89 f9                     	mov	rcx, rdi
-  201326: 48 8b 06                     	mov	rax, qword ptr [rsi]
-  201329: 4d 31 c0                     	xor	r8, r8
-  20132c: 4d 31 c9                     	xor	r9, r9
-
-000000000020132f <max_int.find_max>:
-  20132f: 48 83 f9 01                  	cmp	rcx, 0x1
-  201333: 74 16                        	je	0x20134b <max_int.done>
-  201335: 48 01 d6                     	add	rsi, rdx
-  201338: 49 ff c1                     	inc	r9
-  20133b: 48 39 06                     	cmp	qword ptr [rsi], rax
-  20133e: 7e 06                        	jle	0x201346 <max_int.not_larger>
-  201340: 48 8b 06                     	mov	rax, qword ptr [rsi]
-  201343: 4d 89 c8                     	mov	r8, r9
-
-0000000000201346 <max_int.not_larger>:
-  201346: 48 ff c9                     	dec	rcx
-  201349: eb e4                        	jmp	0x20132f <max_int.find_max>
-
-000000000020134b <max_int.done>:
-  20134b: 4c 89 c2                     	mov	rdx, r8
-  20134e: 5a                           	pop	rdx
-  20134f: 5e                           	pop	rsi
-  201350: 5f                           	pop	rdi
-  201351: c3                           	ret
-
-0000000000201352 <_start>:
-  201352: eb 00                        	jmp	0x201354 <_start.main>
-
-0000000000201354 <_start.main>:
-  201354: bf 04 00 00 00               	mov	edi, 0x4
-  201359: 48 be 18 34 20 00 00 00 00 00	movabs	rsi, 0x203418
-  201363: ba 08 00 00 00               	mov	edx, 0x8
-  201368: e8 b3 ff ff ff               	call	0x201320 <max_int>
-  20136d: 48 89 c7                     	mov	rdi, rax
-
-0000000000201370 <_start.exit>:
-  201370: b8 3c 00 00 00               	mov	eax, 0x3c
-  201375: 0f 05                        	syscall
-  201377: c3                           	ret
+0000000000201320 <.text>:
+  201320: 57                           	pushq	%rdi
+  201321: 56                           	pushq	%rsi
+  201322: 52                           	pushq	%rdx
+  201323: 48 89 f9                     	movq	%rdi, %rcx
+  201326: 48 8b 06                     	movq	(%rsi), %rax
+  201329: 4d 31 c0                     	xorq	%r8, %r8
+  20132c: 4d 31 c9                     	xorq	%r9, %r9
+  20132f: 48 83 f9 01                  	cmpq	$0x1, %rcx
+  201333: 74 16                        	je	0x20134b <.text+0x2b>
+  201335: 48 01 d6                     	addq	%rdx, %rsi
+  201338: 49 ff c1                     	incq	%r9
+  20133b: 48 39 06                     	cmpq	%rax, (%rsi)
+  20133e: 7e 06                        	jle	0x201346 <.text+0x26>
+  201340: 48 8b 06                     	movq	(%rsi), %rax
+  201343: 4d 89 c8                     	movq	%r9, %r8
+  201346: 48 ff c9                     	decq	%rcx
+  201349: eb e4                        	jmp	0x20132f <.text+0xf>
+  20134b: 4c 89 c2                     	movq	%r8, %rdx
+  20134e: 5a                           	popq	%rdx
+  20134f: 5e                           	popq	%rsi
+  201350: 5f                           	popq	%rdi
+  201351: c3                           	retq
+  201352: bf 04 00 00 00               	movl	$0x4, %edi
+  201357: 48 be 18 34 20 00 00 00 00 00	movabsq	$0x203418, %rsi         # imm = 0x203418
+  201361: ba 08 00 00 00               	movl	$0x8, %edx
+  201366: e8 b5 ff ff ff               	callq	0x201320 <.text>
+  20136b: 48 89 c7                     	movq	%rax, %rdi
+  20136e: b8 3c 00 00 00               	movl	$0x3c, %eax
+  201373: 0f 05                        	syscall
+  201375: c3                           	retq

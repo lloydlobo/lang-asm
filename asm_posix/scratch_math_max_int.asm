@@ -80,6 +80,110 @@ ARRAY:
 	SIZEOF_ARRAY equ ($ - ARRAY)
 	N_ARRAY      equ (SIZEOF_ARRAY) / SIZEOF_ARRAY_ITEM
 
+	;----------------------------------------------------------------------
+	; #"Pseudocode"
+	;----------------------------------------------------------------------
+	; # static long ARRAY[] = {3, 9, 11, 4}                                               // dq
+	; #
+	; # int main(int argc, char *argv[]) {
+	; #     long SIZEOF_ARRAY_ITEM = 8                                                    // dq
+	; #     long SIZEOF_ARRAY = sizeof(ARRAY)
+	; #     long N_ARRAY = SIZEOF_ARRAY / sizeof(ARRAY[0])
+	; #
+	; #     long rax                                                                      // return arg1
+	; #     long rdx                                                                      // return arg2
+	; #                                                                                   // max_int(...)
+	; #     long rdi = N_ARRAY                                                            // param1
+	; #     long *rsi = ARRAY                                                             // param2
+	; #     rdx = SIZEOF_ARRAY_ITEM                                                       // param3
+	; #
+	; #     long rcx = rdi                                                                // Counter
+	; #     rax = ARRAY[0]                                                                // "max"
+	; #     long r8 = 0                                                                   // max_index
+	; #     long r9 = 0                                                                   // cur_index
+	; #
+	; # find_max:
+	; #     if (rcx == 1) goto done
+	; #                                                                                   // (*rsi)+=rdx;
+	; #     r9 += 1
+	; #     if (ARRAY[r9] <= rax) goto not_larger
+	; #     rax = ARRAY[r9]
+	; #     r8=r9
+	; #
+	; # not_larger:
+	; #     rcx -= 1
+	; #     goto find_max
+	; #
+	; # done:
+	; #     rdx = r8
+	; #     return rax
+	; #
+	; #     return 0
+	; # }
+	; #
+	; #  -Os -Wall -Wextra -ffreestanding -mno-red-zone -mgeneral-regs-only -march=native
+	; #
+	; # main:
+	; #         mov     eax, 11
+	; #         ret
+	; #
+	; #  -O0 -Wall -Wextra -ffreestanding -mno-red-zone -mgeneral-regs-only -march=native
+	; #
+	; # ARRAY:
+	; #         .quad   3
+	; #         .quad   9
+	; #         .quad   11
+	; #         .quad   4
+	; # main:
+	; #         push    rbp
+	; #         mov     rbp, rsp
+	; #         sub     rsp, 96
+	; #         mov     DWORD PTR [rbp-84], edi
+	; #         mov     QWORD PTR [rbp-96], rsi
+	; #         mov     QWORD PTR [rbp-40], 8
+	; #         mov     QWORD PTR [rbp-48], 32
+	; #         mov     rax, QWORD PTR [rbp-48]
+	; #         shr     rax, 3
+	; #         mov     QWORD PTR [rbp-56], rax
+	; #         mov     rax, QWORD PTR [rbp-56]
+	; #         mov     QWORD PTR [rbp-64], rax
+	; #         mov     QWORD PTR [rbp-72], OFFSET FLAT:ARRAY
+	; #         mov     rax, QWORD PTR [rbp-40]
+	; #         mov     QWORD PTR [rbp-80], rax
+	; #         mov     rax, QWORD PTR [rbp-64]
+	; #         mov     QWORD PTR [rbp-16], rax
+	; #         mov     rax, QWORD PTR ARRAY[rip]
+	; #         mov     QWORD PTR [rbp-8], rax
+	; #         mov     QWORD PTR [rbp-24], 0
+	; #         mov     QWORD PTR [rbp-32], 0
+	; # .L2:
+	; #         cmp     QWORD PTR [rbp-16], 1
+	; #         je      .L9
+	; #         inc     QWORD PTR [rbp-32]
+	; #         mov     rax, QWORD PTR [rbp-32]
+	; #         mov     rax, QWORD PTR ARRAY[0+rax*8]
+	; #         cmp     QWORD PTR [rbp-8], rax
+	; #         jge     .L10
+	; #         mov     rax, QWORD PTR [rbp-32]
+	; #         mov     rax, QWORD PTR ARRAY[0+rax*8]
+	; #         mov     QWORD PTR [rbp-8], rax
+	; #         mov     rax, QWORD PTR [rbp-32]
+	; #         mov     QWORD PTR [rbp-24], rax
+	; #         jmp     .L6
+	; # .L10:
+	; #         nop
+	; # .L6:
+	; #         dec     QWORD PTR [rbp-16]
+	; #         jmp     .L2
+	; # .L9:
+	; #         nop
+	; #         mov     rax, QWORD PTR [rbp-24]
+	; #         mov     QWORD PTR [rbp-80], rax
+	; #         mov     rax, QWORD PTR [rbp-8]
+	; #         leave
+	; #         ret
+	;======================================================================
+
 ;_Usage_:
 
 	;----------------------------------------------------------------------
@@ -87,14 +191,14 @@ ARRAY:
 	;----------------------------------------------------------------------
 	; Without necessary debugging information:
 	;```bash
-	; find -name '*.asm' | entr -cprs 'nasm -f elf64 -Ox scratch.asm
-	; ld scratch.o -o scratch -lc
+	; find -name '*.asm' | entr -cprs 'nasm -f elf64 -Ox scratch.asm -Wlabel-orphan -Wno-orphan-labels
+	; ld scratch.o -o scratch -lc -s
 	; ./scratch
 	; echo $?'
 	;```
 	; With necessary debugging information:
 	;```bash
-	; find -name '*.asm' | entr -cprs 'nasm -f elf64 -O0 -g -F dwarf scratch.asm
+	; find -name '*.asm' | entr -cprs 'nasm -f elf64 -O0 -g -F dwarf scratch.asm -Wlabel-orphan -Wno-orphan-labels
 	; ld scratch.o -o scratch -lc
 	; ./scratch
 	; echo $?'
