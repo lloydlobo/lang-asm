@@ -95,11 +95,11 @@ SIZEOF_DD equ 4  ; `DD 0x12345678, -1000`  (Define Double Word)
 SIZEOF_DQ equ 8  ; `DQ 0x1122334455667788` (Define Quad Word)
 SIZEOF_DT equ 10 ; `DT 3.14159`            (Define Ten Bytes)
 
-BASE_10 equ 10
-MAX_INT equ 18446744073709551615; 20 digits
-NEWLINE_DB db 10
-N_BUFFER64 equ 21; Buffer size for 64-bit numbers, including 1 bytes space for newline
 N_BUFFER32 equ 12; Buffer size for 32-bit numbers
+N_BUFFER64 equ 21; Buffer size for 64-bit numbers, including 1 bytes space for newline
+MAX_INT equ 18446744073709551615; 20 digits
+BASE_10 equ 10
+NEWLINE_DB db 10
 
 ARRAY:
 	dq 99, 88, 22, 77, 33, 66, 44, 11, 55
@@ -216,44 +216,3 @@ ARRAY:
 	; - Provides important information for low-level system programming on Linux AMD64
 	;======================================================================
 
-;Objdump:
-
-	;----------------------------------------------------------------------
-	; Disassembly of section .text:
-	;----------------------------------------------------------------------
-	; push rax
-	; movabs rcx, 0x20349c
-	; add rcx, 0x14
-	; mov byte ptr [rcx], 0x0
-	; mov ebx, 0xa
-	; xor rdx, rdx
-	; div rbx
-	; add dl, 0x30
-	; dec rcx
-	; mov byte ptr [rcx], dl
-	; test rax, rax
-	; jne 0x201337 <.text+0x17>
-	; mov eax, 0x1
-	; mov edi, 0x1
-	; mov rsi, rcx
-	; movabs rdx, 0x20349c
-	; add rdx, 0x15
-	; sub rdx, rcx
-	; syscall
-	; mov eax, 0x1
-	; mov edi, 0x1
-	; movabs rsi, 0x203450
-	; mov edx, 0x1
-	; syscall
-	; pop rax
-	; ret
-	; mov eax, 0x3039
-	; call 0x201320 <.text>
-	; mov rax, -0x1
-	; call 0x201320 <.text>
-	; jmp 0x20139f <.text+0x7f>
-	; mov eax, 0x3c
-	; xor rdi, rdi
-	; syscall
-	; ret
-	;======================================================================
