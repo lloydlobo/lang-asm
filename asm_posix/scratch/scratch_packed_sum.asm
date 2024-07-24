@@ -25,7 +25,7 @@ packed_sum:
 .packed_sum_loop:
 	; packed_sum.loop
 
-	add rax, [rsi]; Add the value at the address in {rsi} to the running sum accumulator in rax. array[i]
+	add rax, [rsi]; Add the value at the address in {rsi} to the running sum accumulator in {rax}. array[i]
 	add rsi, 8; Move the {rsi} pointer ahead by 8 bytes. i++
 
 	dec rdi; Then [dec]rement {rdi} to track count of numbers left. n_array-=1

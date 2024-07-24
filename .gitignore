@@ -1,4 +1,5 @@
 # Build / Executables
 binary
-*/scratch
-*/scratch.o
+*.o
+asm_posix/scratch/scratch
+asm_posix/ex/ex002_syscalls_and_functions/ex002c_array_sum/code.o
