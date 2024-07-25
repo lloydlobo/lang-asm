@@ -6,3 +6,4 @@ asm_posix/*.o
 asm_posix/scratch/scratch
 
 objdump_*
+*objdump
