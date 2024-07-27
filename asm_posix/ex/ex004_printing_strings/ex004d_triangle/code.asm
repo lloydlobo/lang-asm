@@ -47,7 +47,7 @@ print_progn:
 
 	; By the x86 64-bit calling convention, the first six arguments are
 	; passed in the registers {rdi} {rsi} {rdx} {rcx} {r8} {r9} in that
-	; order. {rax} contains the system call oridnal.
+	; order. {rax} contains the system call ordinal.
 
 	; In x86: EBX(fd) ECX(buffer) EDX(length) EAX(system call ordinal)
 	; In x64: RDI RSI RDX RCX RAX(system call ordinal)
@@ -68,6 +68,8 @@ print_triangle:
 	mov r12, rsi; set address of next byte to write to
 	mov r8, 1; set initial line-length
 	mov r9, 0; set counter i.e. number of stars written on line so far
+
+	align 16
 
 .line:
 	mov byte [r12], '*'; write a single star
@@ -102,25 +104,30 @@ print_triangle:
 	global _start
 
 _start:
-	call print_progn
+	align 16
+	call  print_progn
 
-	mov  rdi, SYS_STDOUT; {rdi} holds fd (file descriptor)
-	mov  rsi, output; {rsi} holds address of next byte to write
-	mov  rdx, data_size; {rdx} number of bytes in output buffer
-	mov  rcx, max_lines; {rcx} holds count of max lines of stars to print
-	call print_triangle
+	align 16
+	mov   rdi, SYS_STDOUT; {rdi} holds fd (file descriptor)
+	mov   rsi, output; {rsi} holds address of next byte to write
+	mov   rdx, data_size; {rdx} number of bytes in output buffer
+	mov   rcx, max_lines; {rcx} holds count of max lines of stars to print
+	call  print_triangle
 
 	;    exit
 	xor  dil, dil; exit status 0
 	call exit; exit(int {dil})
 	;======================================================================
 
-	;       SECTION BSS
+	;       SECTION BSS: WRITABLE DATA
 	;----------------------------------------------------------------------
 	section .bss
-	max_lines equ 8
 	data_size equ 44
 	output  resb data_size
+
+	; `equ` is actually not a real instruction...
+	; ... It simply defines an abbreviation for the assembler itself to use.
+	max_lines equ 8
 	;======================================================================
 
 	;       SECTION DATA
