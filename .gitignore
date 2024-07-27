@@ -1,5 +1,6 @@
 # Build / Executables
 binary
+binary_c
 
 *.o
 asm_posix/*.o
