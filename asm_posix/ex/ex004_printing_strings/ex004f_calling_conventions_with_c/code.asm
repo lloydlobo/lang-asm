@@ -31,7 +31,7 @@ main:
 	mov  rdi, progn
 	call puts
 
-	mov ecx, 42
+	mov ecx, 90
 	xor rax, rax
 	xor rbx, rbx
 	inc rbx

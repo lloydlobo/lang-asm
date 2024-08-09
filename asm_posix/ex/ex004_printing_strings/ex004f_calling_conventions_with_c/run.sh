@@ -22,5 +22,5 @@ zig cc code.o
 hexdump -C a.out >code.asm.hex.dump
 : exit status $?
 
-objdump -d a.out >code.asm.a.out.obj.dump
+objdump -M intel -d a.out >code.asm.a.out.obj.dump
 : exit status $?
