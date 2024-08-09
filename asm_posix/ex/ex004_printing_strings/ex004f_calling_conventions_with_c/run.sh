@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
+#
 # file: run.sh
+#
+# strace -c ./a.out
+# : exit status $?
+#
+# watch:
+# find . -name '*.asm' | entr -rs "date;nasm -f elf64 code.asm && zig cc code.o && ./a.out && echo;echo exit status $?;"
 
 set -xe
 
@@ -12,14 +19,8 @@ zig cc code.o
 ./a.out
 : exit status $?
 
-hexdump -C a.out >code.asm.dump
+hexdump -C a.out >code.asm.hex.dump
 : exit status $?
 
-objdump -d a.out >"objdump_intel_a.out_$(date +%s)"
+objdump -d a.out >code.asm.a.out.obj.dump
 : exit status $?
-
-# strace -c ./a.out
-# : exit status $?
-#
-# watch:
-# find . -name '*.asm' | entr -rs "date;nasm -f elf64 code.asm && zig cc code.o && ./a.out && echo;echo exit status $?;"
