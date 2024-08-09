@@ -27,10 +27,14 @@ format:
 
 main:
 	push rbx
-	mov  ecx, 61
-	xor  rax, rax
-	xor  rbx, rbx
-	inc  rbx
+
+	mov  rdi, progn
+	call puts
+
+	mov ecx, 42
+	xor rax, rax
+	xor rbx, rbx
+	inc rbx
 
 print:
 .save:
