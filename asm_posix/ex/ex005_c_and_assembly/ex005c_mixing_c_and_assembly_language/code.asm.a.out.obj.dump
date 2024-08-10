@@ -1,0 +1,149 @@
+
+a.out:	file format elf64-x86-64
+
+Disassembly of section .text:
+
+0000000001001530 <_start>:
+ 1001530: f3 0f 1e fa                  	endbr64
+ 1001534: 31 ed                        	xor	ebp, ebp
+ 1001536: 49 89 d1                     	mov	r9, rdx
+ 1001539: 5e                           	pop	rsi
+ 100153a: 48 89 e2                     	mov	rdx, rsp
+ 100153d: 48 83 e4 f0                  	and	rsp, -0x10
+ 1001541: 50                           	push	rax
+ 1001542: 54                           	push	rsp
+ 1001543: 45 31 c0                     	xor	r8d, r8d
+ 1001546: 31 c9                        	xor	ecx, ecx
+ 1001548: 48 8d 3d 41 00 00 00         	lea	rdi, [rip + 0x41]       # 0x1001590 <main>
+ 100154f: ff 15 0b 13 00 00            	call	qword ptr [rip + 0x130b] # 0x1002860 <printf+0x1002860>
+ 1001555: f4                           	hlt
+ 1001556: 66 2e 0f 1f 84 00 00 00 00 00	nop	word ptr cs:[rax + rax]
+
+0000000001001560 <_dl_relocate_static_pie>:
+ 1001560: f3 0f 1e fa                  	endbr64
+ 1001564: c3                           	ret
+ 1001565: cc                           	int3
+ 1001566: cc                           	int3
+ 1001567: cc                           	int3
+ 1001568: cc                           	int3
+ 1001569: cc                           	int3
+ 100156a: cc                           	int3
+ 100156b: cc                           	int3
+ 100156c: cc                           	int3
+ 100156d: cc                           	int3
+ 100156e: cc                           	int3
+ 100156f: cc                           	int3
+
+0000000001001570 <maxofthree>:
+ 1001570: 48 89 f8                     	mov	rax, rdi
+ 1001573: 48 39 f0                     	cmp	rax, rsi
+ 1001576: 48 0f 4c c6                  	cmovl	rax, rsi
+ 100157a: 48 39 d0                     	cmp	rax, rdx
+ 100157d: 48 0f 4c c2                  	cmovl	rax, rdx
+ 1001581: c3                           	ret
+ 1001582: cc                           	int3
+ 1001583: cc                           	int3
+ 1001584: cc                           	int3
+ 1001585: cc                           	int3
+ 1001586: cc                           	int3
+ 1001587: cc                           	int3
+ 1001588: cc                           	int3
+ 1001589: cc                           	int3
+ 100158a: cc                           	int3
+ 100158b: cc                           	int3
+ 100158c: cc                           	int3
+ 100158d: cc                           	int3
+ 100158e: cc                           	int3
+ 100158f: cc                           	int3
+
+0000000001001590 <main>:
+ 1001590: 55                           	push	rbp
+ 1001591: 48 89 e5                     	mov	rbp, rsp
+ 1001594: 48 83 ec 10                  	sub	rsp, 0x10
+ 1001598: c7 45 fc 00 00 00 00         	mov	dword ptr [rbp - 0x4], 0x0
+ 100159f: 89 7d f8                     	mov	dword ptr [rbp - 0x8], edi
+ 10015a2: 48 89 75 f0                  	mov	qword ptr [rbp - 0x10], rsi
+ 10015a6: bf 01 00 00 00               	mov	edi, 0x1
+ 10015ab: 48 c7 c6 fc ff ff ff         	mov	rsi, -0x4
+ 10015b2: 48 c7 c2 f9 ff ff ff         	mov	rdx, -0x7
+ 10015b9: e8 b2 ff ff ff               	call	0x1001570 <maxofthree>
+ 10015be: 48 89 c6                     	mov	rsi, rax
+ 10015c1: 48 8d 3d cc ee ff ff         	lea	rdi, [rip - 0x1134]     # 0x1000494 <_IO_stdin_used+0x4>
+ 10015c8: b0 00                        	mov	al, 0x0
+ 10015ca: e8 11 01 00 00               	call	0x10016e0 <printf@plt>
+ 10015cf: bf 02 00 00 00               	mov	edi, 0x2
+ 10015d4: 48 c7 c6 fa ff ff ff         	mov	rsi, -0x6
+ 10015db: ba 01 00 00 00               	mov	edx, 0x1
+ 10015e0: e8 8b ff ff ff               	call	0x1001570 <maxofthree>
+ 10015e5: 48 89 c6                     	mov	rsi, rax
+ 10015e8: 48 8d 3d a5 ee ff ff         	lea	rdi, [rip - 0x115b]     # 0x1000494 <_IO_stdin_used+0x4>
+ 10015ef: b0 00                        	mov	al, 0x0
+ 10015f1: e8 ea 00 00 00               	call	0x10016e0 <printf@plt>
+ 10015f6: bf 02 00 00 00               	mov	edi, 0x2
+ 10015fb: be 03 00 00 00               	mov	esi, 0x3
+ 1001600: ba 01 00 00 00               	mov	edx, 0x1
+ 1001605: e8 66 ff ff ff               	call	0x1001570 <maxofthree>
+ 100160a: 48 89 c6                     	mov	rsi, rax
+ 100160d: 48 8d 3d 80 ee ff ff         	lea	rdi, [rip - 0x1180]     # 0x1000494 <_IO_stdin_used+0x4>
+ 1001614: b0 00                        	mov	al, 0x0
+ 1001616: e8 c5 00 00 00               	call	0x10016e0 <printf@plt>
+ 100161b: 48 c7 c7 fe ff ff ff         	mov	rdi, -0x2
+ 1001622: be 04 00 00 00               	mov	esi, 0x4
+ 1001627: ba 03 00 00 00               	mov	edx, 0x3
+ 100162c: e8 3f ff ff ff               	call	0x1001570 <maxofthree>
+ 1001631: 48 89 c6                     	mov	rsi, rax
+ 1001634: 48 8d 3d 59 ee ff ff         	lea	rdi, [rip - 0x11a7]     # 0x1000494 <_IO_stdin_used+0x4>
+ 100163b: b0 00                        	mov	al, 0x0
+ 100163d: e8 9e 00 00 00               	call	0x10016e0 <printf@plt>
+ 1001642: bf 02 00 00 00               	mov	edi, 0x2
+ 1001647: 48 c7 c6 fa ff ff ff         	mov	rsi, -0x6
+ 100164e: ba 05 00 00 00               	mov	edx, 0x5
+ 1001653: e8 18 ff ff ff               	call	0x1001570 <maxofthree>
+ 1001658: 48 89 c6                     	mov	rsi, rax
+ 100165b: 48 8d 3d 32 ee ff ff         	lea	rdi, [rip - 0x11ce]     # 0x1000494 <_IO_stdin_used+0x4>
+ 1001662: b0 00                        	mov	al, 0x0
+ 1001664: e8 77 00 00 00               	call	0x10016e0 <printf@plt>
+ 1001669: bf 02 00 00 00               	mov	edi, 0x2
+ 100166e: be 04 00 00 00               	mov	esi, 0x4
+ 1001673: ba 06 00 00 00               	mov	edx, 0x6
+ 1001678: e8 f3 fe ff ff               	call	0x1001570 <maxofthree>
+ 100167d: 48 89 c6                     	mov	rsi, rax
+ 1001680: 48 8d 3d 0d ee ff ff         	lea	rdi, [rip - 0x11f3]     # 0x1000494 <_IO_stdin_used+0x4>
+ 1001687: b0 00                        	mov	al, 0x0
+ 1001689: e8 52 00 00 00               	call	0x10016e0 <printf@plt>
+ 100168e: 31 c0                        	xor	eax, eax
+ 1001690: 48 83 c4 10                  	add	rsp, 0x10
+ 1001694: 5d                           	pop	rbp
+ 1001695: c3                           	ret
+
+Disassembly of section .init:
+
+0000000001001698 <_init>:
+ 1001698: f3 0f 1e fa                  	endbr64
+ 100169c: 48 83 ec 08                  	sub	rsp, 0x8
+ 10016a0: 48 8b 05 c1 11 00 00         	mov	rax, qword ptr [rip + 0x11c1] # 0x1002868 <printf+0x1002868>
+ 10016a7: 48 85 c0                     	test	rax, rax
+ 10016aa: 74 02                        	je	0x10016ae <_init+0x16>
+ 10016ac: ff d0                        	call	rax
+ 10016ae: 48 83 c4 08                  	add	rsp, 0x8
+ 10016b2: c3                           	ret
+
+Disassembly of section .fini:
+
+00000000010016b4 <_fini>:
+ 10016b4: f3 0f 1e fa                  	endbr64
+ 10016b8: 48 83 ec 08                  	sub	rsp, 0x8
+ 10016bc: 48 83 c4 08                  	add	rsp, 0x8
+ 10016c0: c3                           	ret
+
+Disassembly of section .plt:
+
+00000000010016d0 <.plt>:
+ 10016d0: ff 35 a2 11 00 00            	push	qword ptr [rip + 0x11a2] # 0x1002878 <_GLOBAL_OFFSET_TABLE_+0x8>
+ 10016d6: ff 25 a4 11 00 00            	jmp	qword ptr [rip + 0x11a4] # 0x1002880 <_GLOBAL_OFFSET_TABLE_+0x10>
+ 10016dc: 0f 1f 40 00                  	nop	dword ptr [rax]
+
+00000000010016e0 <printf@plt>:
+ 10016e0: ff 25 a2 11 00 00            	jmp	qword ptr [rip + 0x11a2] # 0x1002888 <_GLOBAL_OFFSET_TABLE_+0x18>
+ 10016e6: 68 00 00 00 00               	push	0x0
+ 10016eb: e9 e0 ff ff ff               	jmp	0x10016d0 <.plt>

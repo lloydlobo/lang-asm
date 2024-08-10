@@ -33,7 +33,7 @@ main:
 	mov ecx, 90; counter
 	xor rax, rax; current_number
 	xor rbx, rbx; next_number
-	inc rbx; {rbx} is originally 1
+	inc rbx; initialize to 1
 
 print:
 ._save:
@@ -51,7 +51,8 @@ print:
 	pop rax
 
 ._next:
-	;   algorithm: next = curr + prev = n-1 + n-2
+	; algorithm: next = curr + prev = n-1 + n-2
+
 	mov rdx, rax; temp = curr
 	mov rax, rbx; curr = next
 	add rbx, rdx; next += temp
@@ -64,4 +65,4 @@ print:
 leave:
 	pop rbx
 	mov rax, 0
-	ret
+	ret ; return
