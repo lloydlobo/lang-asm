@@ -1,0 +1,123 @@
+
+a.out:	file format elf64-x86-64
+
+Disassembly of section .text:
+
+0000000001001590 <_start>:
+ 1001590: f3 0f 1e fa                  	endbr64
+ 1001594: 31 ed                        	xor	ebp, ebp
+ 1001596: 49 89 d1                     	mov	r9, rdx
+ 1001599: 5e                           	pop	rsi
+ 100159a: 48 89 e2                     	mov	rdx, rsp
+ 100159d: 48 83 e4 f0                  	and	rsp, -0x10
+ 10015a1: 50                           	push	rax
+ 10015a2: 54                           	push	rsp
+ 10015a3: 45 31 c0                     	xor	r8d, r8d
+ 10015a6: 31 c9                        	xor	ecx, ecx
+ 10015a8: 48 8d 3d 21 00 00 00         	lea	rdi, [rip + 0x21]       # 0x10015d0 <main>
+ 10015af: ff 15 7b 12 00 00            	call	qword ptr [rip + 0x127b] # 0x1002830 <puts+0x1002830>
+ 10015b5: f4                           	hlt
+ 10015b6: 66 2e 0f 1f 84 00 00 00 00 00	nop	word ptr cs:[rax + rax]
+
+00000000010015c0 <_dl_relocate_static_pie>:
+ 10015c0: f3 0f 1e fa                  	endbr64
+ 10015c4: c3                           	ret
+ 10015c5: cc                           	int3
+ 10015c6: cc                           	int3
+ 10015c7: cc                           	int3
+ 10015c8: cc                           	int3
+ 10015c9: cc                           	int3
+ 10015ca: cc                           	int3
+ 10015cb: cc                           	int3
+ 10015cc: cc                           	int3
+ 10015cd: cc                           	int3
+ 10015ce: cc                           	int3
+ 10015cf: cc                           	int3
+
+00000000010015d0 <main>:
+ 10015d0: 41 54                        	push	r12
+ 10015d2: 41 55                        	push	r13
+ 10015d4: 41 56                        	push	r14
+ 10015d6: 48 81 ff 03 00 00 00         	cmp	rdi, 0x3
+ 10015dd: 75 54                        	jne	0x1001633 <error1>
+ 10015df: 49 89 f4                     	mov	r12, rsi
+ 10015e2: 49 8b 7c 24 10               	mov	rdi, qword ptr [r12 + 0x10]
+ 10015e7: e8 c4 00 00 00               	call	0x10016b0 <atoi@plt>
+ 10015ec: 3d 00 00 00 00               	cmp	eax, 0x0
+ 10015f1: 7c 4f                        	jl	0x1001642 <error2>
+ 10015f3: 41 89 c5                     	mov	r13d, eax
+ 10015f6: 49 8b 7c 24 08               	mov	rdi, qword ptr [r12 + 0x8]
+ 10015fb: e8 b0 00 00 00               	call	0x10016b0 <atoi@plt>
+ 1001600: 41 89 c6                     	mov	r14d, eax
+ 1001603: b8 01 00 00 00               	mov	eax, 0x1
+
+0000000001001608 <check>:
+ 1001608: 45 85 ed                     	test	r13d, r13d
+ 100160b: 74 0c                        	je	0x1001619 <gotit>
+ 100160d: 41 0f af c6                  	imul	eax, r14d
+ 1001611: 41 ff cd                     	dec	r13d
+ 1001614: e9 ef ff ff ff               	jmp	0x1001608 <check>
+
+0000000001001619 <gotit>:
+ 1001619: 48 bf 74 38 00 01 00 00 00 00	movabs	rdi, 0x1003874
+ 1001623: 48 63 f0                     	movsxd	rsi, eax
+ 1001626: 48 31 c0                     	xor	rax, rax
+ 1001629: e8 62 00 00 00               	call	0x1001690 <printf@plt>
+ 100162e: e9 19 00 00 00               	jmp	0x100164c <done>
+
+0000000001001633 <error1>:
+ 1001633: bf 78 38 00 01               	mov	edi, 0x1003878
+ 1001638: e8 63 00 00 00               	call	0x10016a0 <puts@plt>
+ 100163d: e9 0a 00 00 00               	jmp	0x100164c <done>
+
+0000000001001642 <error2>:
+ 1001642: bf 98 38 00 01               	mov	edi, 0x1003898
+ 1001647: e8 54 00 00 00               	call	0x10016a0 <puts@plt>
+
+000000000100164c <done>:
+ 100164c: 41 5e                        	pop	r14
+ 100164e: 41 5d                        	pop	r13
+ 1001650: 41 5c                        	pop	r12
+ 1001652: c3                           	ret
+
+Disassembly of section .init:
+
+0000000001001654 <_init>:
+ 1001654: f3 0f 1e fa                  	endbr64
+ 1001658: 48 83 ec 08                  	sub	rsp, 0x8
+ 100165c: 48 8b 05 d5 11 00 00         	mov	rax, qword ptr [rip + 0x11d5] # 0x1002838 <puts+0x1002838>
+ 1001663: 48 85 c0                     	test	rax, rax
+ 1001666: 74 02                        	je	0x100166a <_init+0x16>
+ 1001668: ff d0                        	call	rax
+ 100166a: 48 83 c4 08                  	add	rsp, 0x8
+ 100166e: c3                           	ret
+
+Disassembly of section .fini:
+
+0000000001001670 <_fini>:
+ 1001670: f3 0f 1e fa                  	endbr64
+ 1001674: 48 83 ec 08                  	sub	rsp, 0x8
+ 1001678: 48 83 c4 08                  	add	rsp, 0x8
+ 100167c: c3                           	ret
+
+Disassembly of section .plt:
+
+0000000001001680 <.plt>:
+ 1001680: ff 35 c2 11 00 00            	push	qword ptr [rip + 0x11c2] # 0x1002848 <_GLOBAL_OFFSET_TABLE_+0x8>
+ 1001686: ff 25 c4 11 00 00            	jmp	qword ptr [rip + 0x11c4] # 0x1002850 <_GLOBAL_OFFSET_TABLE_+0x10>
+ 100168c: 0f 1f 40 00                  	nop	dword ptr [rax]
+
+0000000001001690 <printf@plt>:
+ 1001690: ff 25 c2 11 00 00            	jmp	qword ptr [rip + 0x11c2] # 0x1002858 <_GLOBAL_OFFSET_TABLE_+0x18>
+ 1001696: 68 00 00 00 00               	push	0x0
+ 100169b: e9 e0 ff ff ff               	jmp	0x1001680 <.plt>
+
+00000000010016a0 <puts@plt>:
+ 10016a0: ff 25 ba 11 00 00            	jmp	qword ptr [rip + 0x11ba] # 0x1002860 <_GLOBAL_OFFSET_TABLE_+0x20>
+ 10016a6: 68 01 00 00 00               	push	0x1
+ 10016ab: e9 d0 ff ff ff               	jmp	0x1001680 <.plt>
+
+00000000010016b0 <atoi@plt>:
+ 10016b0: ff 25 b2 11 00 00            	jmp	qword ptr [rip + 0x11b2] # 0x1002868 <_GLOBAL_OFFSET_TABLE_+0x28>
+ 10016b6: 68 02 00 00 00               	push	0x2
+ 10016bb: e9 c0 ff ff ff               	jmp	0x1001680 <.plt>
