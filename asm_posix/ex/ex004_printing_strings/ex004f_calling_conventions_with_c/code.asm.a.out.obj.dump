@@ -43,26 +43,26 @@ Disassembly of section .text:
  10015a8: 48 31 db                     	xor	rbx, rbx
  10015ab: 48 ff c3                     	inc	rbx
 
-00000000010015ae <print.save>:
+00000000010015ae <print._save>:
  10015ae: 50                           	push	rax
  10015af: 51                           	push	rcx
 
-00000000010015b0 <print.load>:
+00000000010015b0 <print._call>:
  10015b0: 48 bf 0e 38 00 01 00 00 00 00	movabs	rdi, 0x100380e
  10015ba: 48 89 c6                     	mov	rsi, rax
  10015bd: 48 31 c0                     	xor	rax, rax
  10015c0: e8 5b 00 00 00               	call	0x1001620 <printf@plt>
 
-00000000010015c5 <print.restore>:
+00000000010015c5 <print._restore>:
  10015c5: 59                           	pop	rcx
  10015c6: 58                           	pop	rax
 
-00000000010015c7 <print.next>:
+00000000010015c7 <print._next>:
  10015c7: 48 89 c2                     	mov	rdx, rax
  10015ca: 48 89 d8                     	mov	rax, rbx
  10015cd: 48 01 d3                     	add	rbx, rdx
  10015d0: ff c9                        	dec	ecx
- 10015d2: 75 da                        	jne	0x10015ae <print.save>
+ 10015d2: 75 da                        	jne	0x10015ae <print._save>
 
 00000000010015d4 <leave>:
  10015d4: 5b                           	pop	rbx
