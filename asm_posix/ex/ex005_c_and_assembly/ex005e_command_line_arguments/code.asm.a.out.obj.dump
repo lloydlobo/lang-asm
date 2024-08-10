@@ -39,38 +39,36 @@ Disassembly of section .text:
  1001545: 0f 05                        	syscall
  1001547: c3                           	ret
 
-0000000001001548 <print_progn>:
- 1001548: 48 bf 84 37 00 01 00 00 00 00	movabs	rdi, 0x1003784
- 1001552: e8 79 00 00 00               	call	0x10015d0 <puts@plt>
- 1001557: c3                           	ret
+0000000001001548 <echo_argv>:
+ 1001548: 57                           	push	rdi
+ 1001549: 56                           	push	rsi
+ 100154a: 48 83 ec 08                  	sub	rsp, 0x8
+ 100154e: 48 8b 3e                     	mov	rdi, qword ptr [rsi]
+ 1001551: e8 7a 00 00 00               	call	0x10015d0 <puts@plt>
+ 1001556: 48 83 c4 08                  	add	rsp, 0x8
+ 100155a: 5e                           	pop	rsi
+ 100155b: 5f                           	pop	rdi
+ 100155c: eb 01                        	jmp	0x100155f <echo_argv.next_argv_elem_inc_rsi>
+ 100155e: c3                           	ret
 
-0000000001001558 <echo_argv>:
- 1001558: 57                           	push	rdi
- 1001559: 56                           	push	rsi
- 100155a: 48 83 ec 08                  	sub	rsp, 0x8
- 100155e: 48 8b 3e                     	mov	rdi, qword ptr [rsi]
- 1001561: e8 6a 00 00 00               	call	0x10015d0 <puts@plt>
- 1001566: 48 83 c4 08                  	add	rsp, 0x8
- 100156a: 5e                           	pop	rsi
- 100156b: 5f                           	pop	rdi
- 100156c: eb 01                        	jmp	0x100156f <echo_argv.next_argv_elem_inc_rsi>
- 100156e: c3                           	ret
+000000000100155f <echo_argv.next_argv_elem_inc_rsi>:
+ 100155f: 48 83 c6 08                  	add	rsi, 0x8
+ 1001563: 48 ff cf                     	dec	rdi
+ 1001566: 75 e0                        	jne	0x1001548 <echo_argv>
+ 1001568: c3                           	ret
 
-000000000100156f <echo_argv.next_argv_elem_inc_rsi>:
- 100156f: 48 83 c6 08                  	add	rsi, 0x8
- 1001573: 48 ff cf                     	dec	rdi
- 1001576: 75 e0                        	jne	0x1001558 <echo_argv>
+0000000001001569 <print_progn>:
+ 1001569: 48 bf 84 37 00 01 00 00 00 00	movabs	rdi, 0x1003784
+ 1001573: e8 58 00 00 00               	call	0x10015d0 <puts@plt>
  1001578: c3                           	ret
 
 0000000001001579 <main>:
  1001579: 57                           	push	rdi
  100157a: 56                           	push	rsi
- 100157b: e8 c8 ff ff ff               	call	0x1001548 <print_progn>
+ 100157b: e8 e9 ff ff ff               	call	0x1001569 <print_progn>
  1001580: 5e                           	pop	rsi
  1001581: 5f                           	pop	rdi
- 1001582: eb d4                        	jmp	0x1001558 <echo_argv>
-
-0000000001001584 <main.leave>:
+ 1001582: eb c4                        	jmp	0x1001548 <echo_argv>
  1001584: c3                           	ret
 
 Disassembly of section .init:
