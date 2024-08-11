@@ -48,7 +48,7 @@ error2:
 	jmp  leave
 
 main:
-	push r12
+	push r12; save callee-save registers
 	push r13
 	push r14
 
@@ -58,41 +58,40 @@ main:
 	jne error1
 
 pow:
-	mov  r12, rsi
-	mov  rdi, [r12 + (8 * 2)]
-	call atoi
+	mov  r12, rsi; point {r12} to `char *argv[]`
+	mov  rdi, [r12 + (8 * 2)]; `argv[2]`
+	call atoi; > (exponent) `y` in {eax}
 
-	cmp eax, 0
+	cmp eax, 0; disallow "-ve" exponents
 	jl  error2
-	mov r13d, eax
+	mov r13d, eax; (counter) `y` in {r13d}
 
-	mov  rdi, [r12 + 8]
-	call atoi
+	mov  rdi, [r12 + (8 * 1)]; argv[1]
+	call atoi; > (base) `x` in {eax}
 	mov  r14d, eax
 
-	mov eax, 1
+	mov eax, 1; set with "answer = 1"
 
 .loop_check:
-	test r13d, r13d
+	test r13d, r13d; check if exponent `y` (counter) is zero
 	jz   .got_pow
 
-	imul eax, r14d
-	dec  r13d
+	imul eax, r14d; {eax} *= `x` in {r14d}
+	dec  r13d; counter--
 	jmp  .loop_check
 
 .got_pow:
 	mov    rdi, fmt_answer
 	movsxd rsi, eax
-	xor    rax, rax
+	xor    rax, rax; set {eax} to zero
 	call   printf
 	mov    rax, EXIT_SUCCESS
-	jmp    leave
 
 leave:
-	pop r14
+	pop r14; restore saved registers
 	pop r13
 	pop r12
-	ret
+	ret ; return to `main` in C
 
 	; .bss
 

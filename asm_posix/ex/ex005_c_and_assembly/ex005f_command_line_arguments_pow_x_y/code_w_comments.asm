@@ -41,12 +41,12 @@ main:
 
 	mov r12, rsi; `long *{rsi}[]` i.e. `char *argv[]` or `char **argv`
 
-	; Use {ecx} to count down from the exponent to zero, {esi} to hold the
+	; Use {r13d} to count down from the exponent to zero, {esi} to hold the
 	; value of the base, and {eax} to hold the running product.
 
 	mov  rdi, [r12 + 8*2]; `argv[2]`
 	call atoi; `y` in {eax}
-	cmp  eax, 0; disallow negative components
+	cmp  eax, 0; disallow negative exponents
 	jl   error2
 	mov  r13d, eax; `y` in {r13d}
 
@@ -57,7 +57,7 @@ main:
 	mov eax, 1; start with `answer = 1`, since 1 allows pure multiplication with it
 
 check:
-	test r13d, r13d; we'er counting `y` downto 0
+	test r13d, r13d; we're counting `y` downto 0
 	jz   gotit; done
 	imul eax, r14d; multiply in another `x`
 	dec  r13d
