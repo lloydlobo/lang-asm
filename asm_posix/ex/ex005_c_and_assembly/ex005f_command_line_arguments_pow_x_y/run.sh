@@ -13,7 +13,6 @@ nasm -f elf64 code.asm \
 	-Wlabel-orphan -Wno-orphan-labels \
 	-O0 -g -F dwarf
 #   -Ox
-
 : exit status $?
 
 # when C interop:
@@ -23,15 +22,16 @@ zig cc code.o
 : exit status $?
 
 hexdump -C a.out >code.asm.hex.dump &
-: exit status $? &
+: exit status $?
 
 objdump -M intel -d a.out >code.asm.a.out.obj.dump &
-: exit status $? &
+: exit status $?
 
-strace -c ./a.out 2 19 &
-: exit status $? &
+strace -c ./a.out 2 5 &
+: exit status $?
 
-./a.out 2 19 #> 524288
+./a.out 2 5 && : $?
+# HACK: trying to ^^^ log exit status if ./a.out fails
 : exit status $?
 
 # FIN

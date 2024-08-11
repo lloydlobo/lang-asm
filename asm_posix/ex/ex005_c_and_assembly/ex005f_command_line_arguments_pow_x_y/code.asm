@@ -14,6 +14,11 @@
 	; * Ported from "[A Longer Example]: https://cs.lmu.edu/~ray/notes/nasmtutorial/"
 	; *----------------------------------------------------------------------------------------
 
+	; $ gdb --args ./a.out <integer1> <integer2>
+
+	%define EXIT_SUCCESS 0
+	%define EXIT_FAILURE 1
+
 	global main
 	extern printf
 	extern puts
@@ -21,82 +26,89 @@
 
 	section .text
 
-	; * In the System V AMD64 ABI, the first six integer or pointer arguments
-	; * to a function are passed in registers. {rdi} is the first of these, so
-	; * it's used for argc.
+puts_progn:
+	push rdi
+	push rsi
+	mov  rdi, progn
+	call puts
+	pop  rsi
+	pop  rdi
+	ret
+
+error1:
+	mov  edi, fmt_bad_argument_count
+	call puts
+	mov  rax, EXIT_FAILURE
+	jmp  leave
+
+error2:
+	mov  edi, fmt_negative_exponent
+	call puts
+	mov  rax, EXIT_FAILURE
+	jmp  leave
 
 main:
-	push r12; save callee-save registers
+	push r12
 	push r13
 	push r14
-	;    By pushing 3 registers our stack is already aligned for calls
 
-	; * The off-by-one aspect: A common source of confusion in C programming.
-	; * argc is always at least 1 (for the program name) so "two arguments" to
-	; * the user means `argc == 3`.
+	call puts_progn
 
-	cmp rdi, 3; must have exactly two arguments (x and y)
-	;   i.e. argc == 3 where argv[] == ['./a.out', x, y]
-	jne error1; [j]ump if [n]ot [e]qual: check ZF (zero flag) set by previous `cmp` instruction
+	cmp rdi, 3
+	jne error1
 
-	mov r12, rsi; `long *{rsi}[]` i.e. `char *argv[]` or `char **argv`
+pow:
+	mov  r12, rsi
+	mov  rdi, [r12 + (8 * 2)]
+	call atoi
 
-	; Use {ecx} to count down from the exponent to zero, {esi} to hold the
-	; value of the base, and {eax} to hold the running product.
-
-	mov  rdi, [r12 + 8*2]; `argv[2]`
-	call atoi; `y` in {eax}
-	cmp  eax, 0; disallow negative components
-	jl   error2
-	mov  r13d, eax; `y` in {r13d}
+	cmp eax, 0
+	jl  error2
+	mov r13d, eax
 
 	mov  rdi, [r12 + 8]
 	call atoi
-	mov  r14d, eax; `x` in {r14d}
+	mov  r14d, eax
 
-	mov eax, 1; start with `answer = 1`
+	mov eax, 1
 
-check:
-	test r13d, r13d; we'er counting `y` downto 0
-	jz   gotit; done
-	imul eax, r14d; multiply in another `x`
+.loop_check:
+	test r13d, r13d
+	jz   .got_pow
+
+	imul eax, r14d
 	dec  r13d
-	jmp  check
+	jmp  .loop_check
 
-gotit:
-	mov    rdi, fmt_answer; print report on success
+.got_pow:
+	mov    rdi, fmt_answer
 	movsxd rsi, eax
 	xor    rax, rax
-	call   printf; `printf(long *{rdi} __format, long {rsi, ...} args)`
-	jmp    done
+	call   printf
+	mov    rax, EXIT_SUCCESS
+	jmp    leave
 
-error1:
-	mov  edi, fmt_bad_argument_count; print error message
-	call puts; `puts(long *{rdi})`
-	jmp  done
-
-error2:
-	mov  edi, fmt_negative_exponent; print error message
-	call puts; `puts(long *{rdi})`
-
-done:
-	pop r14; restore saved registers
+leave:
+	pop r14
 	pop r13
 	pop r12
-	ret ; return
+	ret
 
-	;***************
-	; .bss section
-	;***************
+	; .bss
 
 	section .bss
-	;       so lonely here...
 
-	;***************
-	; .data section
-	;***************
+	; ---
+
+	; .data
 
 	section .data
+
+progn:
+	db "ex005f_command_line_arguments_pow_x_y", 0, 0
+
+fmt_d:
+	db "%d", 10
 
 fmt_answer:
 	db "%d", 10, 0
@@ -105,4 +117,4 @@ fmt_bad_argument_count:
 	db "Requires exactly two arguments", 10, 0
 
 fmt_negative_exponent:
-	db "The exponent may not be negative", 10, 0
+	db "The exponent should not be negative", 10, 0
