@@ -10,21 +10,28 @@
 #include <stdlib.h>
 
 double sum(double[], uint64_t);
+double mul(double[], uint64_t);
+double divide(double[], uint64_t);
 
 int main(int argc, char *argv[])
 {
-        double test[] = {
-                40.4,
-                26.7,
-                21.9,
-                1.5,
-                -40.5,
-                -23.4,
-        };
+        double test[] = { 40.4, 26.7, 21.9, 1.5, -40.5, -23.4 };
+
         printf("%20.7f\n", sum(test, 6));
         printf("%20.7f\n", sum(test, 2));
         printf("%20.7f\n", sum(test, 0));
         printf("%20.7f\n", sum(test, 3));
+
+        printf("%20.7f\n", mul(test, 6));
+        printf("%20.7f\n", mul(test, 2));
+        printf("%20.7f\n", mul(test, 0));
+        printf("%20.7f\n", mul(test, 3));
+
+        printf("%20.7f\n", divide(test, 6));
+        printf("%20.7f\n", divide(test, 2));
+        printf("%20.7f\n", divide(test, 0));
+        printf("%20.7f\n", divide(test, 3));
+
         return EXIT_SUCCESS;
 }
 // Output:
