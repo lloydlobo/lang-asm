@@ -187,3 +187,13 @@ main:
 	fmt_info_example_name: db "Info: Example ex005h_data_sections", 10, 0
 	fmt_info_answer_is: db "Info: Answer is:", 0
 	fmt_info_counter: db "Info: Current counter is:", 0
+
+	; This program highlighted some processor instructions that convert between
+	; integers and floating point values. A few of the most common are:
+	; ---
+	; Instruction                                           | Description
+	; ------------------------------------------------------| -----------------------------------------------------------------------
+	; \mathtt{cvtsi2sd}\; \mathit{xmmreg}, \mathit{r/m32}   | \mathit{xmmreg}[63..0] \leftarrow \mathrm{intToDouble}(\mathit{r/m32})
+	; \mathtt{cvtsi2ss}\; \mathit{xmmreg}, \mathit{r/m32}   | \mathit{xmmreg}[31..0] \leftarrow \mathrm{intToFloat}(\mathit{r/m32})
+	; \mathtt{cvtsd2si}\; \mathit{reg32}, \mathit{xmmr/m64} | \mathit{reg32} \leftarrow \mathrm{doubleToInt}(\mathit{xmmr/m64})
+	; \mathtt{cvtss2si}\; \mathit{reg32}, \mathit{xmmr/m32} | \mathit{reg32} \leftarrow \mathrm{floatToInt}(\mathit{xmmr/m32})
