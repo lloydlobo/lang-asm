@@ -12,7 +12,7 @@
 	; *         -O0 -g -F dwarf
 	; *     zig cc code.o
 	; *
-	; * Ported from "[Data Sections]: https://cs.lmu.edu/~ray/notes/nasmtutorial/"
+	; * Ported from "[Recursion]: https://cs.lmu.edu/~ray/notes/nasmtutorial/"
 	; *----------------------------------------------------------------------------------------
 
 	; * Usage:
