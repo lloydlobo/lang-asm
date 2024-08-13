@@ -2,12 +2,12 @@
 # file: run.sh
 set -xe
 build() {
-	nasm -f elf64 code.asm \
+	nasm -f elf64 -Ox code.asm \
 		-I ../../../ -I "../../../lib/sys/$(uname)" \
 		-Wlabel-orphan -Wno-orphan-labels \
-		-Ox
-	# -O0 -g -F dwarf
-	zig cc code.o # without C interop -> `ld -o binary code.o -lc -s;`
+		-O0 -g -F dwarf
+	# without C interop -> `ld -o binary code.o -lc -s;`
+	zig cc code.o
 }
 dump() {
 	hexdump -C a.out >code.asm.hex.dump &

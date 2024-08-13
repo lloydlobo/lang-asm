@@ -14,8 +14,8 @@ Disassembly of section .text:
  10015a2: 54                           	push	rsp
  10015a3: 45 31 c0                     	xor	r8d, r8d
  10015a6: 31 c9                        	xor	ecx, ecx
- 10015a8: 48 8d 3d c3 00 00 00         	lea	rdi, [rip + 0xc3]       # 0x1001672 <main>
- 10015af: ff 15 0b 13 00 00            	call	qword ptr [rip + 0x130b] # 0x10028c0 <puts+0x10028c0>
+ 10015a8: 48 8d 3d e1 00 00 00         	lea	rdi, [rip + 0xe1]       # 0x1001690 <main>
+ 10015af: ff 15 3b 13 00 00            	call	qword ptr [rip + 0x133b] # 0x10028f0 <puts+0x10028f0>
  10015b5: f4                           	hlt
  10015b6: 66 2e 0f 1f 84 00 00 00 00 00	nop	word ptr cs:[rax + rax]
 
@@ -37,141 +37,143 @@ Disassembly of section .text:
 00000000010015d0 <nothing_to_average>:
  10015d0: 57                           	push	rdi
  10015d1: 56                           	push	rsi
- 10015d2: 48 bf 6f 39 00 01 00 00 00 00	movabs	rdi, 0x100396f
+ 10015d2: 48 bf 9f 39 00 01 00 00 00 00	movabs	rdi, 0x100399f
  10015dc: 48 31 c0                     	xor	rax, rax
- 10015df: 48 83 ec 08                  	sub	rsp, 0x8
- 10015e3: e8 48 01 00 00               	call	0x1001730 <printf@plt>
- 10015e8: 48 83 c4 08                  	add	rsp, 0x8
- 10015ec: 5e                           	pop	rsi
- 10015ed: 5f                           	pop	rdi
- 10015ee: c3                           	ret
+ 10015df: 48 81 ec 08 00 00 00         	sub	rsp, 0x8
+ 10015e6: e8 75 01 00 00               	call	0x1001760 <printf@plt>
+ 10015eb: 48 81 c4 08 00 00 00         	add	rsp, 0x8
+ 10015f2: 5e                           	pop	rsi
+ 10015f3: 5f                           	pop	rdi
+ 10015f4: c3                           	ret
 
-00000000010015ef <print_counter>:
- 10015ef: 57                           	push	rdi
- 10015f0: 56                           	push	rsi
- 10015f1: 50                           	push	rax
- 10015f2: 48 bf fb 39 00 01 00 00 00 00	movabs	rdi, 0x10039fb
- 10015fc: 48 83 ec 08                  	sub	rsp, 0x8
- 1001600: e8 3b 01 00 00               	call	0x1001740 <puts@plt>
- 1001605: 48 83 c4 08                  	add	rsp, 0x8
- 1001609: 58                           	pop	rax
- 100160a: 5e                           	pop	rsi
- 100160b: 5f                           	pop	rdi
- 100160c: 57                           	push	rdi
- 100160d: 56                           	push	rsi
- 100160e: 50                           	push	rax
- 100160f: 48 bf 14 39 00 01 00 00 00 00	movabs	rdi, 0x1003914
- 1001619: 48 63 35 e4 22 00 00         	movsxd	rsi, dword ptr [rip + 0x22e4] # 0x1003904 <arg_num_count>
- 1001620: b0 01                        	mov	al, 0x1
- 1001622: 48 83 ec 08                  	sub	rsp, 0x8
- 1001626: e8 05 01 00 00               	call	0x1001730 <printf@plt>
- 100162b: 48 83 c4 08                  	add	rsp, 0x8
- 100162f: 58                           	pop	rax
- 1001630: 5e                           	pop	rsi
- 1001631: 5f                           	pop	rdi
- 1001632: c3                           	ret
+00000000010015f5 <print_counter>:
+ 10015f5: 57                           	push	rdi
+ 10015f6: 56                           	push	rsi
+ 10015f7: 50                           	push	rax
+ 10015f8: 48 bf 2b 3a 00 01 00 00 00 00	movabs	rdi, 0x1003a2b
+ 1001602: 48 81 ec 08 00 00 00         	sub	rsp, 0x8
+ 1001609: e8 62 01 00 00               	call	0x1001770 <puts@plt>
+ 100160e: 48 81 c4 08 00 00 00         	add	rsp, 0x8
+ 1001615: 58                           	pop	rax
+ 1001616: 5e                           	pop	rsi
+ 1001617: 5f                           	pop	rdi
+ 1001618: 57                           	push	rdi
+ 1001619: 56                           	push	rsi
+ 100161a: 50                           	push	rax
+ 100161b: 48 bf 44 39 00 01 00 00 00 00	movabs	rdi, 0x1003944
+ 1001625: 48 63 35 08 23 00 00         	movsxd	rsi, dword ptr [rip + 0x2308] # 0x1003934 <arg_num_count>
+ 100162c: b0 01                        	mov	al, 0x1
+ 100162e: 48 81 ec 08 00 00 00         	sub	rsp, 0x8
+ 1001635: e8 26 01 00 00               	call	0x1001760 <printf@plt>
+ 100163a: 48 81 c4 08 00 00 00         	add	rsp, 0x8
+ 1001641: 58                           	pop	rax
+ 1001642: 5e                           	pop	rsi
+ 1001643: 5f                           	pop	rdi
+ 1001644: c3                           	ret
 
-0000000001001633 <print_example_name>:
- 1001633: 57                           	push	rdi
- 1001634: 56                           	push	rsi
- 1001635: 50                           	push	rax
- 1001636: 48 bf c6 39 00 01 00 00 00 00	movabs	rdi, 0x10039c6
- 1001640: 48 31 c0                     	xor	rax, rax
- 1001643: 48 83 ec 08                  	sub	rsp, 0x8
- 1001647: e8 e4 00 00 00               	call	0x1001730 <printf@plt>
- 100164c: 48 83 c4 08                  	add	rsp, 0x8
- 1001650: 58                           	pop	rax
- 1001651: 5e                           	pop	rsi
- 1001652: 5f                           	pop	rdi
- 1001653: c3                           	ret
+0000000001001645 <print_example_name>:
+ 1001645: 57                           	push	rdi
+ 1001646: 56                           	push	rsi
+ 1001647: 50                           	push	rax
+ 1001648: 48 bf f6 39 00 01 00 00 00 00	movabs	rdi, 0x10039f6
+ 1001652: 48 31 c0                     	xor	rax, rax
+ 1001655: 48 81 ec 08 00 00 00         	sub	rsp, 0x8
+ 100165c: e8 ff 00 00 00               	call	0x1001760 <printf@plt>
+ 1001661: 48 81 c4 08 00 00 00         	add	rsp, 0x8
+ 1001668: 58                           	pop	rax
+ 1001669: 5e                           	pop	rsi
+ 100166a: 5f                           	pop	rdi
+ 100166b: c3                           	ret
 
-0000000001001654 <print_info_answer_is>:
- 1001654: 57                           	push	rdi
- 1001655: 56                           	push	rsi
- 1001656: 50                           	push	rax
- 1001657: 48 bf ea 39 00 01 00 00 00 00	movabs	rdi, 0x10039ea
- 1001661: 48 83 ec 08                  	sub	rsp, 0x8
- 1001665: e8 d6 00 00 00               	call	0x1001740 <puts@plt>
- 100166a: 48 83 c4 08                  	add	rsp, 0x8
- 100166e: 58                           	pop	rax
- 100166f: 5e                           	pop	rsi
- 1001670: 5f                           	pop	rdi
- 1001671: c3                           	ret
+000000000100166c <print_info_answer_is>:
+ 100166c: 57                           	push	rdi
+ 100166d: 56                           	push	rsi
+ 100166e: 50                           	push	rax
+ 100166f: 48 bf 1a 3a 00 01 00 00 00 00	movabs	rdi, 0x1003a1a
+ 1001679: 48 81 ec 08 00 00 00         	sub	rsp, 0x8
+ 1001680: e8 eb 00 00 00               	call	0x1001770 <puts@plt>
+ 1001685: 48 81 c4 08 00 00 00         	add	rsp, 0x8
+ 100168c: 58                           	pop	rax
+ 100168d: 5e                           	pop	rsi
+ 100168e: 5f                           	pop	rdi
+ 100168f: c3                           	ret
 
-0000000001001672 <main>:
- 1001672: e8 bc ff ff ff               	call	0x1001633 <print_example_name>
- 1001677: 48 ff cf                     	dec	rdi
- 100167a: 0f 84 50 ff ff ff            	je	0x10015d0 <nothing_to_average>
- 1001680: 48 89 3d 7d 22 00 00         	mov	qword ptr [rip + 0x227d], rdi # 0x1003904 <arg_num_count>
- 1001687: e8 63 ff ff ff               	call	0x10015ef <print_counter>
- 100168c: 90                           	nop
- 100168d: 90                           	nop
- 100168e: 90                           	nop
- 100168f: 90                           	nop
+0000000001001690 <main>:
+ 1001690: e8 b0 ff ff ff               	call	0x1001645 <print_example_name>
+ 1001695: 48 ff cf                     	dec	rdi
+ 1001698: 0f 84 32 ff ff ff            	je	0x10015d0 <nothing_to_average>
+ 100169e: 48 89 3d 8f 22 00 00         	mov	qword ptr [rip + 0x228f], rdi # 0x1003934 <arg_num_count>
+ 10016a5: e8 4b ff ff ff               	call	0x10015f5 <print_counter>
+ 10016aa: 90                           	nop
+ 10016ab: 90                           	nop
+ 10016ac: 90                           	nop
+ 10016ad: 90                           	nop
+ 10016ae: 90                           	nop
+ 10016af: 90                           	nop
 
-0000000001001690 <main.loop_accumulate>:
- 1001690: 57                           	push	rdi
- 1001691: 56                           	push	rsi
- 1001692: 48 8b 3c fe                  	mov	rdi, qword ptr [rsi + 8*rdi]
- 1001696: e8 85 00 00 00               	call	0x1001720 <atoi@plt>
- 100169b: 5e                           	pop	rsi
- 100169c: 5f                           	pop	rdi
- 100169d: 48 01 05 68 22 00 00         	add	qword ptr [rip + 0x2268], rax # 0x100390c <sum_accumulator>
- 10016a4: 48 ff cf                     	dec	rdi
- 10016a7: 75 e7                        	jne	0x1001690 <main.loop_accumulate>
+00000000010016b0 <main.loop_accumulate>:
+ 10016b0: 57                           	push	rdi
+ 10016b1: 56                           	push	rsi
+ 10016b2: 48 8b 3c fe                  	mov	rdi, qword ptr [rsi + 8*rdi]
+ 10016b6: e8 95 00 00 00               	call	0x1001750 <atoi@plt>
+ 10016bb: 5e                           	pop	rsi
+ 10016bc: 5f                           	pop	rdi
+ 10016bd: 48 01 05 78 22 00 00         	add	qword ptr [rip + 0x2278], rax # 0x100393c <sum_accumulator>
+ 10016c4: 48 ff cf                     	dec	rdi
+ 10016c7: 75 e7                        	jne	0x10016b0 <main.loop_accumulate>
 
-00000000010016a9 <main.average>:
- 10016a9: e8 a6 ff ff ff               	call	0x1001654 <print_info_answer_is>
- 10016ae: f2 0f 2a 05 56 22 00 00      	cvtsi2sd	xmm0, dword ptr [rip + 0x2256] # 0x100390c <sum_accumulator>
- 10016b6: f2 0f 2a 0d 46 22 00 00      	cvtsi2sd	xmm1, dword ptr [rip + 0x2246] # 0x1003904 <arg_num_count>
- 10016be: f2 0f 5e c1                  	divsd	xmm0, xmm1
- 10016c2: 48 bf 18 39 00 01 00 00 00 00	movabs	rdi, 0x1003918
- 10016cc: b8 01 00 00 00               	mov	eax, 0x1
- 10016d1: 48 83 ec 08                  	sub	rsp, 0x8
- 10016d5: e8 56 00 00 00               	call	0x1001730 <printf@plt>
- 10016da: 48 83 c4 08                  	add	rsp, 0x8
+00000000010016c9 <main.average>:
+ 10016c9: e8 9e ff ff ff               	call	0x100166c <print_info_answer_is>
+ 10016ce: f2 0f 2a 05 66 22 00 00      	cvtsi2sd	xmm0, dword ptr [rip + 0x2266] # 0x100393c <sum_accumulator>
+ 10016d6: f2 0f 2a 0d 56 22 00 00      	cvtsi2sd	xmm1, dword ptr [rip + 0x2256] # 0x1003934 <arg_num_count>
+ 10016de: f2 0f 5e c1                  	divsd	xmm0, xmm1
+ 10016e2: 48 bf 48 39 00 01 00 00 00 00	movabs	rdi, 0x1003948
+ 10016ec: 48 b8 01 00 00 00 00 00 00 00	movabs	rax, 0x1
+ 10016f6: 48 81 ec 08 00 00 00         	sub	rsp, 0x8
+ 10016fd: e8 5e 00 00 00               	call	0x1001760 <printf@plt>
+ 1001702: 48 81 c4 08 00 00 00         	add	rsp, 0x8
 
-00000000010016de <main.leave>:
- 10016de: c3                           	ret
+0000000001001709 <main.leave>:
+ 1001709: c3                           	ret
 
 Disassembly of section .init:
 
-00000000010016e0 <_init>:
- 10016e0: f3 0f 1e fa                  	endbr64
- 10016e4: 48 83 ec 08                  	sub	rsp, 0x8
- 10016e8: 48 8b 05 d9 11 00 00         	mov	rax, qword ptr [rip + 0x11d9] # 0x10028c8 <puts+0x10028c8>
- 10016ef: 48 85 c0                     	test	rax, rax
- 10016f2: 74 02                        	je	0x10016f6 <_init+0x16>
- 10016f4: ff d0                        	call	rax
- 10016f6: 48 83 c4 08                  	add	rsp, 0x8
- 10016fa: c3                           	ret
+000000000100170c <_init>:
+ 100170c: f3 0f 1e fa                  	endbr64
+ 1001710: 48 83 ec 08                  	sub	rsp, 0x8
+ 1001714: 48 8b 05 dd 11 00 00         	mov	rax, qword ptr [rip + 0x11dd] # 0x10028f8 <puts+0x10028f8>
+ 100171b: 48 85 c0                     	test	rax, rax
+ 100171e: 74 02                        	je	0x1001722 <_init+0x16>
+ 1001720: ff d0                        	call	rax
+ 1001722: 48 83 c4 08                  	add	rsp, 0x8
+ 1001726: c3                           	ret
 
 Disassembly of section .fini:
 
-00000000010016fc <_fini>:
- 10016fc: f3 0f 1e fa                  	endbr64
- 1001700: 48 83 ec 08                  	sub	rsp, 0x8
- 1001704: 48 83 c4 08                  	add	rsp, 0x8
- 1001708: c3                           	ret
+0000000001001728 <_fini>:
+ 1001728: f3 0f 1e fa                  	endbr64
+ 100172c: 48 83 ec 08                  	sub	rsp, 0x8
+ 1001730: 48 83 c4 08                  	add	rsp, 0x8
+ 1001734: c3                           	ret
 
 Disassembly of section .plt:
 
-0000000001001710 <.plt>:
- 1001710: ff 35 c2 11 00 00            	push	qword ptr [rip + 0x11c2] # 0x10028d8 <_GLOBAL_OFFSET_TABLE_+0x8>
- 1001716: ff 25 c4 11 00 00            	jmp	qword ptr [rip + 0x11c4] # 0x10028e0 <_GLOBAL_OFFSET_TABLE_+0x10>
- 100171c: 0f 1f 40 00                  	nop	dword ptr [rax]
+0000000001001740 <.plt>:
+ 1001740: ff 35 c2 11 00 00            	push	qword ptr [rip + 0x11c2] # 0x1002908 <_GLOBAL_OFFSET_TABLE_+0x8>
+ 1001746: ff 25 c4 11 00 00            	jmp	qword ptr [rip + 0x11c4] # 0x1002910 <_GLOBAL_OFFSET_TABLE_+0x10>
+ 100174c: 0f 1f 40 00                  	nop	dword ptr [rax]
 
-0000000001001720 <atoi@plt>:
- 1001720: ff 25 c2 11 00 00            	jmp	qword ptr [rip + 0x11c2] # 0x10028e8 <_GLOBAL_OFFSET_TABLE_+0x18>
- 1001726: 68 00 00 00 00               	push	0x0
- 100172b: e9 e0 ff ff ff               	jmp	0x1001710 <.plt>
+0000000001001750 <atoi@plt>:
+ 1001750: ff 25 c2 11 00 00            	jmp	qword ptr [rip + 0x11c2] # 0x1002918 <_GLOBAL_OFFSET_TABLE_+0x18>
+ 1001756: 68 00 00 00 00               	push	0x0
+ 100175b: e9 e0 ff ff ff               	jmp	0x1001740 <.plt>
 
-0000000001001730 <printf@plt>:
- 1001730: ff 25 ba 11 00 00            	jmp	qword ptr [rip + 0x11ba] # 0x10028f0 <_GLOBAL_OFFSET_TABLE_+0x20>
- 1001736: 68 01 00 00 00               	push	0x1
- 100173b: e9 d0 ff ff ff               	jmp	0x1001710 <.plt>
+0000000001001760 <printf@plt>:
+ 1001760: ff 25 ba 11 00 00            	jmp	qword ptr [rip + 0x11ba] # 0x1002920 <_GLOBAL_OFFSET_TABLE_+0x20>
+ 1001766: 68 01 00 00 00               	push	0x1
+ 100176b: e9 d0 ff ff ff               	jmp	0x1001740 <.plt>
 
-0000000001001740 <puts@plt>:
- 1001740: ff 25 b2 11 00 00            	jmp	qword ptr [rip + 0x11b2] # 0x10028f8 <_GLOBAL_OFFSET_TABLE_+0x28>
- 1001746: 68 02 00 00 00               	push	0x2
- 100174b: e9 c0 ff ff ff               	jmp	0x1001710 <.plt>
+0000000001001770 <puts@plt>:
+ 1001770: ff 25 b2 11 00 00            	jmp	qword ptr [rip + 0x11b2] # 0x1002928 <_GLOBAL_OFFSET_TABLE_+0x28>
+ 1001776: 68 02 00 00 00               	push	0x2
+ 100177b: e9 c0 ff ff ff               	jmp	0x1001740 <.plt>
