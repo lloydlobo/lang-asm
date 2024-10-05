@@ -2,7 +2,8 @@
 	; DEFINITIONS
 	;----------------------------------------------------------------------
 
-	%define EXIT_SUCCESS 1
+	%define EXIT_SUCCESS 0
+	%define EXIT_FAILURE 1
 
 	;----------------------------------------------------------------------
 	; HEADER
@@ -67,7 +68,7 @@ _start:
 	jmp .exit
 
 .fail:
-	mov dil, EXIT_SUCCESS; mov rdi, 1
+	mov dil, EXIT_FAILURE; mov rdi, 1
 
 .exit:
 	call exit

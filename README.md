@@ -1,12 +1,18 @@
-# asmisms
+# lang-asm
 
+<!--Handy terminal shortcuts-->
 <!-- # echo $?		# see exit code -->
 <!-- # vim * -p -->
 
-- [./pkg/syscalls_and_fun/]
-  - <https://github.com/xmdi/SCHIZONE/tree/main/ex/ex002_syscalls_and_functions>
-
 ## References
 
-- [xmdi/SCHIZONE](https://github.com/xmdi/SCHIZONE/tree/main)
-- x86 and amd64 instruction reference - https://www.felixcloutier.com/x86/
+- Assembly without native libraries for Linux and BSD:
+
+  - [xmdi/SCHIZONE](https://github.com/xmdi/SCHIZONE/tree/main)
+
+- Assembly that uses C libraries for Linux:
+  - [ray/cs.lmu.edu](https://cs.lmu.edu/~ray/notes/nasmtutorial/)
+
+## See also
+
+- [felixcloutier/"x86 and amd64 instruction reference"](https://www.felixcloutier.com/x86/)

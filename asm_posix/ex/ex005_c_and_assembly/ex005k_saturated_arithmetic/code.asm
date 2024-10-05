@@ -107,3 +107,31 @@ format:
 	; * addsd       | Do just one double-precision addition, using the low 64-bits of the register (add scalar double)
 	; * addps       | Do four single-precision additions in parallel (add packed single)
 	; * addss       | Do just one single-precision addition, using the low 32-bits of the register (add sca
+
+	; * #include <stdio.h>
+	; * #include <stdint.h>
+	; * #include <immintrin.h>
+	; *
+	; * int main() {
+	; *                                                                                                                     // Define the input arrays
+	; *     __attribute__((aligned(16))) int16_t arg1[8] = {0x3544, 0x24FF, 0x7654, 0x9A77, 0xF677, 0x9000, 0xFFFF, 0x0000}
+	; *     __attribute__((aligned(16))) int16_t arg2[8] = {0x7000, 0x1000, 0xC000, 0x1000, 0xB000, 0xA000, 0x1000, 0x0000}
+	; *
+	; *                                                                                                                     // Load the data into XMM registers
+	; *     __m128i xmm0 = _mm_load_si128((__m128i*)arg1)
+	; *     __m128i xmm1 = _mm_load_si128((__m128i*)arg2)
+	; *
+	; *                                                                                                                     // Perform saturated addition
+	; *     __m128i result = _mm_adds_epi16(xmm0, xmm1)
+	; *
+	; *                                                                                                                     // Store the result
+	; *     __attribute__((aligned(16))) int16_t result_array[8]
+	; *     _mm_store_si128((__m128i*)result_array, result)
+	; *
+	; *                                                                                                                     // Print the result
+	; *     printf("%04x%04x%04x%04x\n"
+	; *            (uint16_t)result_array[3], (uint16_t)result_array[2]
+	; *            (uint16_t)result_array[1], (uint16_t)result_array[0])
+	; *
+	; *     return 0
+	; * }

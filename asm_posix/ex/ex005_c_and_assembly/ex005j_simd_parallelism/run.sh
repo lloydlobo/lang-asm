@@ -12,8 +12,7 @@ SRCS_C=code.c
 build() {
 	nasm -f elf64 -Ox "${SRCS_ASM}" \
 		-I ../../../ -I "../../../lib/sys/$(uname)" \
-		-Wlabel-orphan -Wno-orphan-labels
-	# -O0 -g -F dwarf
+		-Wlabel-orphan -Wno-orphan-labels -O0 -g -F dwarf
 	zig cc "${OBJS}" "${SRCS_C}"
 }
 

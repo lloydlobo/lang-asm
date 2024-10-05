@@ -43,7 +43,7 @@ print_int:
 	xor  rdx, rdx
 	div  rbx
 	;    Convert remainder to ASCII.
-	;    NOTE: {dl} is the lower 8 bits of the {rdx} register
+	;    NOTE: {dl} is the lower 8-bits of the {rdx} register
 	add  dl, '0'
 	dec  rcx
 	mov  [rcx], dl
